@@ -1805,4 +1805,17 @@ input:checked + .slider:before {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
+}/* توقيع المطور */
+.footer-signature {
+    text-align: center;
+    padding: 15px 0 10px;
+    color: #888;
+    font-size: 14px;
+    border-top: 1px solid #333;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.footer-signature p {
+    margin: 0;
 }
