@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamForge - بدون إنترنت</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a2a3a, #0f1a24);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .offline-container {
+            max-width: 400px;
+            padding: 40px 20px;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s infinite;
+        }
+        
+        h1 {
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #b0c4de;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .buildings {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+        }
+        
+        .building {
+            width: 30px;
+            height: 60px;
+            background: #27ae60;
+            border-radius: 10px 10px 0 0;
+            animation: buildingPulse 2s infinite;
+        }
+        
+        .building:nth-child(2) { height: 80px; animation-delay: 0.2s; }
+        .building:nth-child(3) { height: 100px; animation-delay: 0.4s; }
+        .building:nth-child(4) { height: 70px; animation-delay: 0.6s; }
+        .building:nth-child(5) { height: 90px; animation-delay: 0.8s; }
+        
+        @keyframes buildingPulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="icon">🏗️</div>
+        <h1>لا يوجد اتصال بالإنترنت</h1>
+        <p>مدينتك تنتظرك ولكننا بحاجة لاتصال بالإنترنت لاستكمال البناء. تأكد من اتصالك وحاول مرة أخرى.</p>
+        
+        <div class="buildings">
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+        </div>
+        
+        <button class="btn" onclick="location.reload()">
+            إعادة المحاولة
+        </button>
+    </div>
+</body>
+</html>

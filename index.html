@@ -1,6 +1,50 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <!-- PWA Support -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DreamForge">
+<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+
+<!-- Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered:', registration);
+                
+                // طلب الإذن للإشعارات
+                if ('Notification' in window) {
+                    Notification.requestPermission();
+                }
+                
+                // إعداد التذكير اليومي
+                if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                    registration.sync.register('study-reminder')
+                        .catch(console.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
+</script>
+
+<!-- تجربة التثبيت على iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="DreamForge">
+<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+
+<!-- شاشة البداية على iOS -->
+<link rel="apple-touch-startup-image" href="splash/launch.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#1a2a3a">
@@ -590,6 +634,51 @@
             </div>
         </div>
     </div>
+    <!-- أضف هذا في نهاية ملف index.html قبل إغلاق body -->
+<canvas id="icon-generator" style="display:none" width="512" height="512"></canvas>
+<script>
+// مولد الأيقونات مؤقتاً (يمكنك استبدالها بصور حقيقية)
+function generateIcons() {
+    const canvas = document.getElementById('icon-generator');
+    const ctx = canvas.getContext('2d');
+    
+    // رسم خلفية دائرية
+    ctx.beginPath();
+    ctx.arc(256, 256, 230, 0, Math.PI * 2);
+    ctx.fillStyle = '#27ae60';
+    ctx.fill();
+    
+    // رسم دائرة داخلية
+    ctx.beginPath();
+    ctx.arc(256, 256, 200, 0, Math.PI * 2);
+    ctx.fillStyle = '#1a2a3a';
+    ctx.fill();
+    
+    // رسم رمز الصاروخ
+    ctx.font = 'bold 200px "Cairo", Arial';
+    ctx.fillStyle = '#f39c12';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🚀', 256, 280);
+    
+    // حفظ الأيقونات بأحجام مختلفة
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+    sizes.forEach(size => {
+        const iconCanvas = document.createElement('canvas');
+        iconCanvas.width = size;
+        iconCanvas.height = size;
+        const iconCtx = iconCanvas.getContext('2d');
+        iconCtx.drawImage(canvas, 0, 0, 512, 512, 0, 0, size, size);
+        
+        // تحويل إلى Data URL (في الإنتاج يجب حفظها كملفات)
+        const dataUrl = iconCanvas.toDataURL('image/png');
+        console.log(`Icon ${size}x${size}:`, dataUrl);
+    });
+}
+
+// تشغيل المولد (اختياري)
+// generateIcons();
+</script>
     
     <script src="script.js"></script>
 </body>
