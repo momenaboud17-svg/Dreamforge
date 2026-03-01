@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#1a2a3a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>DreamForge - ابنِ حلمك ساعة بساعة</title>
+    
+    <!-- Preload assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Font Awesome للايقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- ==================== شاشة البداية ==================== -->
+        <div id="splash-screen" class="screen">
+            <div class="splash-content">
+                <div class="logo-container">
+                    <div class="logo-icon">🚀</div>
+                    <h1 class="logo-text">DreamForge</h1>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">جاري تحميل عالم أحلامك...</p>
+            </div>
+        </div>
+
+        <!-- ==================== شاشة اختيار الحلم ==================== -->
+        <div id="dream-selection-screen" class="screen hidden">
+            <div class="container dream-container">
+                <div class="dream-header">
+                    <h1><i class="fas fa-seedling"></i> اختر حلمك المستقبلي</h1>
+                    <p class="subtitle">الحلم هو البداية... اختر المجال الذي تطمح للوصول إليه</p>
+                </div>
+                
+                <div class="dream-showcase">
+                    <div class="dream-preview" id="dream-preview">
+                        <div class="preplace-holder">✨</div>
+                    </div>
+                </div>
+                
+                <div class="dream-options-grid">
+                    <button class="dream-card" data-dream="طبيب">
+                        <div class="dream-icon">👨‍⚕️</div>
+                        <div class="dream-name">طبيب</div>
+                        <div class="dream-desc">مدينة فيها مستشفى ومركز أبحاث</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="مهندس">
+                        <div class="dream-icon">👷</div>
+                        <div class="dream-name">مهندس</div>
+                        <div class="dream-desc">مدينة تحت الإنشاء وناطحات سحاب</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="مبرمج">
+                        <div class="dream-icon">💻</div>
+                        <div class="dream-name">مبرمج</div>
+                        <div class="dream-desc">مدينة رقمية مستقبلية</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="عالم">
+                        <div class="dream-icon">🔬</div>
+                        <div class="dream-name">عالم</div>
+                        <div class="dream-desc">مختبرات ومراكز أبحاث</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="كاتب">
+                        <div class="dream-icon">✍️</div>
+                        <div class="dream-name">كاتب</div>
+                        <div class="dream-desc">مكتبة ضخمة ومدينة ثقافية</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="رائد أعمال">
+                        <div class="dream-icon">💼</div>
+                        <div class="dream-name">رائد أعمال</div>
+                        <div class="dream-desc">مركز مالي وأبراج تجارية</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="فنان">
+                        <div class="dream-icon">🎨</div>
+                        <div class="dream-name">فنان</div>
+                        <div class="dream-desc">معرض فني ومسرح</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="معلم">
+                        <div class="dream-icon">👨‍🏫</div>
+                        <div class="dream-name">معلم</div>
+                        <div class="dream-desc">مدارس وجامعات</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="طيار">
+                        <div class="dream-icon">✈️</div>
+                        <div class="dream-name">طيار</div>
+                        <div class="dream-desc">مطار ومحاكيات طيران</div>
+                    </button>
+                    
+                    <button class="dream-card" data-dream="محامي">
+                        <div class="dream-icon">⚖️</div>
+                        <div class="dream-name">محامي</div>
+                        <div class="dream-desc">محكمة ومكتب محاماة</div>
+                    </button>
+                </div>
+                
+                <div class="custom-dream-section">
+                    <div class="divider"><span>أو</span></div>
+                    <div class="custom-dream">
+                        <input type="text" id="custom-dream-input" placeholder="اكتب حلمك هنا...">
+                        <button id="set-custom-dream-btn" class="custom-btn">
+                            <i class="fas fa-check"></i> تأكيد
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== الصفحة الرئيسية ==================== -->
+        <div id="main-screen" class="screen hidden">
+            <header class="main-header">
+                <div class="header-top">
+                    <div class="logo-mini">🚀 DreamForge</div>
+                    <div class="user-badge">
+                        <span class="dream-badge" id="dream-title"></span>
+                        <span class="level-badge" id="level-badge">
+                            <i class="fas fa-star"></i>
+                            <span id="level-value">1</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="title-section">
+                    <h2 id="user-title">المبتدئ</h2>
+                    <div class="streak-counter" id="streak-counter">
+                        <i class="fas fa-fire"></i>
+                        <span id="streak-value">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- عرض المدينة (Canvas) -->
+            <div class="city-container">
+                <canvas id="city-canvas" width="1000" height="500"></canvas>
+                <div id="weather-effect" class="weather"></div>
+                
+                <!-- تأثيرات خاصة -->
+                <div class="city-overlay">
+                    <div class="city-time" id="city-time"></div>
+                    <div class="city-level-indicator">
+                        <span>المستوى <span id="city-level">1</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- شريط التقدم المحسن -->
+            <div class="xp-system">
+                <div class="xp-header">
+                    <div class="xp-label">
+                        <i class="fas fa-bolt"></i>
+                        <span>نقاط الخبرة</span>
+                    </div>
+                    <div class="xp-values">
+                        <span id="xp-current">0</span>
+                        <span>/</span>
+                        <span id="xp-max">1000</span>
+                    </div>
+                </div>
+                
+                <div class="xp-bar-container">
+                    <div class="xp-bar">
+                        <div id="xp-progress" style="width:0%"></div>
+                    </div>
+                    <div class="xp-percent" id="xp-percent">0%</div>
+                </div>
+                
+                <div class="level-info">
+                    <div class="next-level">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>المستوى التالي: <span id="next-level">2</span></span>
+                    </div>
+                    <div class="xp-needed">
+                        <span id="xp-needed">200</span> XP متبقي
+                    </div>
+                </div>
+            </div>
+
+            <!-- إحصائيات سريعة -->
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="total-hours-mini">0</span>
+                        <span class="stat-label">ساعة</span>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="streak-mini">0</span>
+                        <span class="stat-label">يوم</span>
+                    </div>
+                </div>
+                
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="achievements-count">0</span>
+                        <span class="stat-label">إنجاز</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- أزرار الإجراءات الرئيسية -->
+            <div class="action-grid">
+                <button id="add-session-btn" class="action-card primary-action">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>تسجيل جلسة</span>
+                </button>
+                
+                <button id="view-dashboard-btn" class="action-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>لوحة التحكم</span>
+                </button>
+                
+                <button id="view-achievements-btn" class="action-card">
+                    <i class="fas fa-medal"></i>
+                    <span>الإنجازات</span>
+                </button>
+                
+                <button id="quick-session-btn" class="action-card">
+                    <i class="fas fa-bolt"></i>
+                    <span>بداية سريعة</span>
+                </button>
+            </div>
+
+            <!-- تذكير الحلم المحسن -->
+            <div class="dream-reminder-card">
+                <div class="reminder-icon">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <div class="reminder-content">
+                    <p id="reminder-text">✨ كل ساعة تذاكرها الآن = لبنة في مستقبلك</p>
+                </div>
+                <button class="refresh-reminder" id="refresh-reminder">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            
+            <!-- شريط التنقل السفلي -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-screen="main">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </button>
+                <button class="nav-item" data-screen="session">
+                    <i class="fas fa-pen"></i>
+                    <span>تسجيل</span>
+                </button>
+                <button class="nav-item" data-screen="dashboard">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>الإحصائيات</span>
+                </button>
+                <button class="nav-item" data-screen="achievements">
+                    <i class="fas fa-award"></i>
+                    <span>الإنجازات</span>
+                </button>
+                <button class="nav-item" data-screen="profile">
+                    <i class="fas fa-user"></i>
+                    <span>الملف</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- ==================== شاشة تسجيل جلسة مذاكرة محسنة ==================== -->
+        <div id="session-screen" class="screen hidden">
+            <div class="session-container">
+                <header class="screen-header">
+                    <button class="back-btn" id="session-back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <h2><i class="fas fa-pencil-alt"></i> تسجيل جلسة جديدة</h2>
+                    <div class="placeholder"></div>
+                </header>
+                
+                <form id="session-form" class="session-form">
+                    <div class="form-card">
+                        <div class="form-group">
+                            <label><i class="fas fa-book"></i> المادة</label>
+                            <input type="text" id="subject" placeholder="مثال: رياضيات, فيزياء..." required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label><i class="fas fa-hourglass-half"></i> الدقائق</label>
+                                <input type="number" id="minutes" min="5" max="480" value="30" required>
+                            </div>
+                            
+                            <div class="form-group half">
+                                <label><i class="fas fa-brain"></i> التركيز</label>
+                                <div class="focus-selector">
+                                    <input type="range" id="focus" min="1" max="5" value="3" step="1">
+                                    <div class="focus-value" id="focus-value">3/5</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> الصعوبة</label>
+                            <div class="difficulty-options">
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="سهل" checked>
+                                    <span>سهل</span>
+                                </label>
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="متوسط">
+                                    <span>متوسط</span>
+                                </label>
+                                <label class="difficulty-option">
+                                    <input type="radio" name="difficulty" value="صعب">
+                                    <span>صعب</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> وصف الجلسة (اختياري)</label>
+                            <textarea id="session-notes" placeholder="ملاحظاتك عن الجلسة..."></textarea>
+                        </div>
+                        
+                        <!-- معاينة XP -->
+                        <div class="xp-preview">
+                            <h3>XP المتوقعة</h3>
+                            <div class="xp-breakdown">
+                                <div class="breakdown-item">
+                                    <span>الوقت (30 دقيقة)</span>
+                                    <span id="preview-time-xp">50</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>مكافأة الصعوبة</span>
+                                    <span id="preview-difficulty-xp">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>مكافأة التركيز</span>
+                                    <span id="preview-focus-xp">0</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>مكافأة السلسلة</span>
+                                    <span id="preview-streak-xp">0</span>
+                                </div>
+                                <div class="breakdown-total">
+                                    <span>المجموع</span>
+                                    <span id="preview-total-xp">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">
+                            <i class="fas fa-save"></i> حفظ الجلسة
+                        </button>
+                        <button type="button" id="cancel-session-btn" class="secondary-btn">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==================== شاشة لوحة التحكم المحسنة ==================== -->
+        <div id="dashboard-screen" class="screen hidden">
+            <div class="dashboard-container">
+                <header class="screen-header">
+                    <button class="back-btn" id="dashboard-back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <h2><i class="fas fa-chart-pie"></i> لوحة التحكم</h2>
+                    <button class="refresh-btn" id="refresh-dashboard">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </header>
+                
+                <div class="dashboard-content">
+                    <!-- بطاقات الإحصائيات -->
+                    <div class="stats-grid">
+                        <div class="stat-card-large">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">إجمالي الساعات</span>
+                                <span class="stat-value" id="total-hours">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-large">
+                            <div class="stat-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">متوسط التركيز</span>
+                                <span class="stat-value" id="avg-focus">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-large">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">أفضل مادة</span>
+                                <span class="stat-value" id="best-subject">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-large">
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">تحتاج تحسين</span>
+                                <span class="stat-value" id="weakest-subject">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- الرسم البياني -->
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-line"></i> تقدم الدراسة (آخر 7 أيام)</h3>
+                        <div class="chart-container">
+                            <canvas id="weekly-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- تقدم الحلم -->
+                    <div class="dream-progress-card">
+                        <h3><i class="fas fa-flag-checkered"></i> تقدم الحلم</h3>
+                        <div class="dream-progress-container">
+                            <div class="dream-progress-bar">
+                                <div id="dream-progress-bar" style="width:0%"></div>
+                            </div>
+                            <div class="dream-progress-stats">
+                                <span>المستوى الحالي: <strong id="current-level-progress">1</strong></span>
+                                <span id="dream-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- إحصائيات المواد -->
+                    <div class="subjects-card">
+                        <h3><i class="fas fa-book-open"></i> أداء المواد</h3>
+                        <div class="subjects-list" id="subjects-list">
+                            <!-- ستضاف ديناميكياً -->
+                        </div>
+                    </div>
+                    
+                    <!-- السلسلة الزمنية -->
+                    <div class="streak-card">
+                        <h3><i class="fas fa-fire"></i> سلسلة الأيام</h3>
+                        <div class="streak-display">
+                            <div class="streak-days" id="streak-days">0</div>
+                            <div class="streak-calendar" id="streak-calendar">
+                                <!-- أيام الأسبوع -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== شاشة الإنجازات ==================== -->
+        <div id="achievements-screen" class="screen hidden">
+            <div class="achievements-container">
+                <header class="screen-header">
+                    <button class="back-btn" id="achievements-back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <h2><i class="fas fa-medal"></i> الإنجازات</h2>
+                    <div class="placeholder"></div>
+                </header>
+                
+                <div class="achievements-stats">
+                    <div class="achievements-progress">
+                        <span id="achievements-unlocked">0</span>/<span id="achievements-total">20</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div id="achievements-progress-bar" style="width:0%"></div>
+                    </div>
+                </div>
+                
+                <div class="achievements-grid" id="achievements-grid">
+                    <!-- ستضاف الإنجازات هنا -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== شاشة الملف الشخصي ==================== -->
+        <div id="profile-screen" class="screen hidden">
+            <div class="profile-container">
+                <header class="screen-header">
+                    <button class="back-btn" id="profile-back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <h2><i class="fas fa-user"></i> الملف الشخصي</h2>
+                    <button class="edit-btn" id="edit-profile">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </header>
+                
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div class="avatar-placeholder" id="avatar-placeholder">🚀</div>
+                    </div>
+                    <h3 id="profile-name">الباني</h3>
+                    <p id="profile-title">المبتدئ</p>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <span class="stat-label">تاريخ الاشتراك</span>
+                        <span class="stat-value" id="join-date">-</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-label">آخر جلسة</span>
+                        <span class="stat-value" id="last-session">-</span>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="stat-label">إجمالي الجلسات</span>
+                        <span class="stat-value" id="total-sessions">0</span>
+                    </div>
+                </div>
+                
+                <div class="profile-settings">
+                    <h3><i class="fas fa-cog"></i> الإعدادات</h3>
+                    
+                    <div class="setting-item">
+                        <span><i class="fas fa-moon"></i> الوضع الليلي</span>
+                        <label class="switch">
+                            <input type="checkbox" id="dark-mode-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span><i class="fas fa-bell"></i> الإشعارات</span>
+                        <label class="switch">
+                            <input type="checkbox" id="notifications-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span><i class="fas fa-volume-up"></i> المؤثرات الصوتية</span>
+                        <label class="switch">
+                            <input type="checkbox" id="sound-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="reset-btn" id="reset-data-btn">
+                    <i class="fas fa-trash"></i> إعادة تعيين البيانات
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Confirm Dialog -->
+    <div id="confirm-dialog" class="confirm-dialog hidden">
+        <div class="dialog-content">
+            <h3 id="dialog-title">تأكيد</h3>
+            <p id="dialog-message"></p>
+            <div class="dialog-actions">
+                <button id="dialog-confirm" class="dialog-btn confirm">نعم</button>
+                <button id="dialog-cancel" class="dialog-btn cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
